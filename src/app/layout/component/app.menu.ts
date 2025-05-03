@@ -21,30 +21,110 @@ export class AppMenu {
     ngOnInit() {
         this.model = [
             {
-                label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }]
+                label: 'Main Menu',
+                items: [
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                    { label: 'Contactes', icon: 'pi pi-fw pi-users', items: [
+                        {
+                            label: 'Clients',
+                            icon: 'pi pi-fw pi-user',
+                            routerLink: ['#']
+                        },
+                        {
+                            label: ' Fournisseurs',
+                            icon: 'pi pi-fw pi-truck',
+                            routerLink: ['/']
+                        }
+                    ] },
+                    { label: 'Achats', icon: 'pi pi-fw pi-shopping-cart', items: [
+                        {
+                            label: 'Commande fournisseur',
+                            icon: 'pi pi-fw pi-shopping-cart',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Bon de Réception',
+                            icon: 'pi pi-fw pi-check-square',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Facture Fournisseur',
+                            icon: 'pi pi-fw pi-file-pdf',
+                            routerLink: ['/']
+                        }
+                    ] },
+                    { label: 'Vente', icon: 'pi pi-fw pi-money-bill', class: 'rotated-icon', items: [
+                        {
+                            label: 'Devis',
+                            icon: 'pi pi-fw pi-file-edit',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Bon de Livraison',
+                            icon: 'pi pi-fw pi-truck',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Bon De Sortie',
+                            icon: 'pi pi-fw pi-arrow-right',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Facture',
+                            icon: 'pi pi-fw pi-file-pdf',
+                            routerLink: ['/']
+                        }
+                    ] },
+
+                    { label: 'Stock', icon: 'pi pi-fw pi-box', class: 'rotated-icon', items: [
+                        {
+                            label: 'Gestion de stock',
+                            icon: 'pi pi-fw pi-box',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Liste Articles',
+                            icon: 'pi pi-fw pi-list',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Seuil de Réapprovisionnement',
+                            icon: 'pi pi-fw pi-exclamation-circle',
+                            routerLink: ['/']
+                        },
+                        {
+                            label: 'Bon De Trasnfert',
+                            icon: 'pi pi-fw pi-arrows-h',
+                            routerLink: ['/']
+                        }
+                    ] }
+
+                ]
+                
+
+
             },
             {
-                label: 'UI Components',
+                label: 'Settings',
                 items: [
-                    { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
-                    { label: 'Button', icon: 'pi pi-fw pi-mobile', class: 'rotated-icon', routerLink: ['/uikit/button'] },
-                    { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] },
-                    { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list'] },
-                    { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree'] },
-                    { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel'] },
-                    { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay'] },
-                    { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media'] },
-                    { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu'] },
-                    { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
-                    { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
-                    { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
-                    { label: 'Timeline', icon: 'pi pi-fw pi-calendar', routerLink: ['/uikit/timeline'] },
-                    { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/uikit/misc'] }
+                    //{ label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
+                   // { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
+                   // { label: 'Button', icon: 'pi pi-fw pi-mobile', class: 'rotated-icon', routerLink: ['/uikit/button'] },
+                    //{ label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] },
+                   // { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list'] },
+                   // { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree'] },
+                   // { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel'] },
+                    //{ label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay'] },
+                   // { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media'] },
+                   // { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu'] },
+                    //{ label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
+                    //{ label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
+                    //{ label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
+                    { label: 'Rapports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/'] },
+                    { label: 'Paramétre', icon: 'pi pi-fw pi-cog', routerLink: ['/'] }
                 ]
             },
-            {
+            /*{
                 label: 'Pages',
                 icon: 'pi pi-fw pi-briefcase',
                 routerLink: ['/pages'],
@@ -135,18 +215,18 @@ export class AppMenu {
                         ]
                     }
                 ]
-            },
+            },*/
             {
-                label: 'Get Started',
+                label: 'More',
                 items: [
                     {
-                        label: 'Documentation',
-                        icon: 'pi pi-fw pi-book',
-                        routerLink: ['/documentation']
+                        label: 'Aide',
+                        icon: 'pi pi-fw pi-question-circle',
+                        routerLink: ['/']
                     },
                     {
-                        label: 'View Source',
-                        icon: 'pi pi-fw pi-github',
+                        label: 'Log out',
+                        icon: 'pi pi-fw pi-sign-out',
                         url: 'https://github.com/primefaces/sakai-ng',
                         target: '_blank'
                     }

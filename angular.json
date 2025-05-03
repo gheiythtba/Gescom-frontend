@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "sakai-ng": {
+        "gescom-frontend": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -28,9 +28,15 @@
                         "assets": [
                             {
                                 "glob": "**/*",
-                                "input": "public"
+                                "input": "src/assets/Images",
+                                "output": "/assets/Images"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "public",
+                                "output": "/"
                             }
-                        ],
+                            ],
                         "styles": [
                             "src/styles.scss"
                         ],
@@ -64,10 +70,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "sakai-ng:build:production"
+                            "buildTarget": "gescom-frontend:build:production"
                         },
                         "development": {
-                            "buildTarget": "sakai-ng:build:development"
+                            "buildTarget": "gescom-frontend:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -87,9 +93,15 @@
                         "assets": [
                             {
                                 "glob": "**/*",
-                                "input": "public"
+                                "input": "src/assets/Images",
+                                "output": "/assets/Images"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "public",
+                                "output": "/"
                             }
-                        ],
+                            ],
                         "styles": [
                             "src/styles.scss"
                         ],
