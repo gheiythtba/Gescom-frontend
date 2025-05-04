@@ -1,9 +1,12 @@
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+
 export default {
     root: true,
     ignorePatterns: ['**/dist/**'],
     plugins: ['prettier'],
     extends: ['prettier'],
     rules: {
+        'prettier/prettier': ['error', { usePrettierrc: true }],
         'padding-line-between-statements': [
             'error',
             { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
@@ -25,7 +28,13 @@ export default {
                 project: ['tsconfig.json', 'e2e/tsconfig.json'],
                 createDefaultProgram: true
             },
-            extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:@angular-eslint/recommended', 'plugin:@angular-eslint/template/process-inline-templates', 'prettier'],
+            extends: [
+                'eslint:recommended',
+                'plugin:@typescript-eslint/recommended',
+                'plugin:@angular-eslint/recommended',
+                'plugin:@angular-eslint/template/process-inline-templates',
+                'plugin:prettier/recommended'
+            ],
             rules: {
                 '@angular-eslint/component-selector': [
                     'error',
