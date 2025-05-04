@@ -1,7 +1,7 @@
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 
 export default {
-    root: true,
+   // root: true,
     ignorePatterns: ['**/dist/**'],
     plugins: ['prettier'],
     extends: ['prettier'],
