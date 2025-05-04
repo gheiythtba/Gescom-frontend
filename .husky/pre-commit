@@ -1,3 +1,2 @@
 #!/bin/sh
-# Husky v9+ format (compatible with future v10)
 npx lint-staged

@@ -1,3 +1,2 @@
 #!/bin/sh
-# Husky v9+ format
 npm run prepush
