@@ -1,0 +1,15 @@
+:host {
+  .p-card {
+    height: 100%;
+    
+    .p-card-body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .text-green-500 { color: #22C55E; }
+  .text-orange-500 { color: #F97316; }
+  .text-red-500 { color: #EF4444; }
+}

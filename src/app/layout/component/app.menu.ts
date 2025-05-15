@@ -23,7 +23,7 @@ export class AppMenu {
             {
                 label: 'Main Menu',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/Gescom/dashboard'] },
                     { label: 'Contactes', icon: 'pi pi-fw pi-users', items: [
                         {
                             label: 'Clients',
@@ -76,26 +76,28 @@ export class AppMenu {
                         }
                     ] },
 
-                    { label: 'Stock', icon: 'pi pi-fw pi-box', class: 'rotated-icon', items: [
+                    { label: 'Stock', icon: 'pi pi-fw pi-box', class: 'rotated-icon',
+                        routerLink: ['/Gescom/frontOffice/Stock'],
+                        items: [
                         {
                             label: 'Gestion de stock',
                             icon: 'pi pi-fw pi-box',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Stock/StockManagement']
                         },
                         {
                             label: 'Liste Articles',
                             icon: 'pi pi-fw pi-list',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Stock/ArticleListe']
                         },
                         {
-                            label: 'Seuil de Réapprovisionnement',
+                            label: 'Seuil de Stock',
                             icon: 'pi pi-fw pi-exclamation-circle',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Stock/Seuil']
                         },
                         {
                             label: 'Bon De Trasnfert',
                             icon: 'pi pi-fw pi-arrows-h',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Stock/BonDeTransfert']
                         }
                     ] }
 

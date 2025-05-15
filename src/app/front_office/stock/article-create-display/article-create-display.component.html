@@ -1,0 +1,197 @@
+<div class="p-4">
+    <app-header-bar
+      [title]="'Gestion des Articles'"
+      [buttons]="headerButtons"
+      [subtitle]="'Create New Article'"
+      (buttonClick)="onHeaderButtonClick($event)">
+    </app-header-bar>
+  
+    <p-card class="modern-card">
+      <!-- Image Section -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-image"></i>
+          </div>
+          <h3 class="section-title">Product Visual</h3>
+        </div>
+        <div class="image-section">
+          <div class="image-container" *ngIf="mode !== 'view'">
+            <ng-container *ngIf="article.image; else emptyImage">
+              <div class="image-preview">
+                <img [src]="article.image" alt="Article image">
+              </div>
+            </ng-container>
+            <ng-template #emptyImage>
+              <div class="empty-state">
+                <i class="pi pi-cloud-upload upload-icon"></i>
+                <h4>Upload Product Image</h4>
+                <p>JPEG or PNG, Max 2MB</p>
+              </div>
+            </ng-template>
+          </div>
+          <p-fileUpload #fileUpload *ngIf="mode !== 'view'" 
+            mode="basic" 
+            name="image" 
+            accept="image/*" 
+            maxFileSize="2000000"
+            (onUpload)="onUpload($event)" 
+            chooseLabel="Select Image"
+            [auto]="true">
+          </p-fileUpload>
+        </div>
+      </div>
+  
+      <!-- Details Section -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-info-circle"></i>
+          </div>
+          <h3 class="section-title">Product Information</h3>
+        </div>
+
+        <div class="details-section">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="designation">Designation</label>
+              <input id="designation" type="text" pInputText [(ngModel)]="article.designation" [readonly]="mode === 'view'" required>
+            </div>
+            
+            <div class="form-field">
+              <label for="reference">Reference</label>
+              <input id="reference" type="text" pInputText [(ngModel)]="article.reference" [readonly]="mode === 'view'">
+            </div>
+            
+            <div class="form-field">
+              <label for="category">Category</label>
+              <p-dropdown [options]="categories" [(ngModel)]="article.category" [editable]="true" 
+                placeholder="Select or enter category" [disabled]="mode === 'view'">
+              </p-dropdown>
+            </div>
+            
+            <div class="form-field">
+              <label for="stockQuantity">Stock Quantity</label>
+              <p-inputnumber [(ngModel)]="article.stockQuantity" showButtons mode="decimal"></p-inputnumber>
+            </div>
+
+            <div class="form-field">
+              <label for="entrepot">Entrepot</label>
+              <p-dropdown id="entrepot" [options]="entrepots" [(ngModel)]="selectedEntrepot" 
+                [disabled]="mode === 'view'" [scrollHeight]="'200px'">
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Pricing Section -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="pi pi-euro"></i>
+          </div>
+          <h3 class="section-title">Pricing Details</h3>
+        </div>
+        <div class="pricing-section">
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <div class="pricing-label">
+                <i class="pi pi-shopping-bag pricing-icon"></i>
+                Purchase Price
+              </div>
+              <p-inputNumber [(ngModel)]="article.purchasePrice" mode="currency" currency="EUR" locale="fr-FR" 
+                (onInput)="calculateSellingPrice()" [disabled]="mode === 'view'"></p-inputNumber>
+            </div>
+            
+            <div class="pricing-card">
+              <div class="pricing-label">
+                <i class="pi pi-percentage pricing-icon"></i>
+                Margin
+              </div>
+              <p-inputNumber [(ngModel)]="article.margin" suffix="%" 
+                (onInput)="calculateSellingPrice()" [disabled]="mode === 'view'"></p-inputNumber>
+            </div>
+            
+            <div class="pricing-card">
+              <div class="pricing-label">
+                <i class="pi pi-tag pricing-icon"></i>
+                Selling Price
+              </div>
+              <p-inputNumber [(ngModel)]="article.sellingPrice" mode="currency" currency="EUR" locale="fr-FR" 
+                (onInput)="calculateMargin()" [disabled]="mode === 'view'"></p-inputNumber>
+            </div>
+          </div>
+          
+          <div class="pricing-grid" style="margin-top: 1.5rem;">
+            <div class="pricing-card">
+              <div class="pricing-label">
+                <i class="pi pi-money-bill pricing-icon"></i>
+                VAT Amount
+              </div>
+              <div class="pricing-value vat-amount">
+                {{ article.vatAmount | currency:'EUR':'symbol':'1.2-2' }}
+              </div>
+            </div>
+            
+            <div class="pricing-card">
+              <div class="pricing-label">
+                <i class="pi pi-calculator pricing-icon"></i>
+                VAT Rate
+              </div>
+              <div class="vat-selector">
+                <p-dropdown [options]="vatRates" [(ngModel)]="article.vatRate" optionLabel="label" 
+                  [editable]="true" placeholder="Select or enter VAT rate"
+                  (onChange)="calculateVatAmount()" [disabled]="mode === 'view'">
+                  <ng-template pTemplate="footer">
+                    <div class="p-p-2">
+                      <button pButton pRipple type="button" icon="pi pi-plus" label="Add Custom Rate" 
+                        (click)="showVatDialog()" class="p-button-sm p-button-text"></button>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </div>
+            
+            <div class="pricing-card">
+              <div class="pricing-label">
+                <i class="pi pi-wallet pricing-icon"></i>
+                Price incl. VAT
+              </div>
+              <div class="pricing-value">
+                {{ article.priceIncludingVat | currency:'EUR':'symbol':'1.2-2' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <ng-template pTemplate="footer">
+        <div class="action-buttons">
+          <button pButton pRipple type="button" label="Cancel" icon="pi pi-times" class="p-button-outlined" 
+            (click)="onCancel()"></button>
+          
+          <button *ngIf="mode !== 'view'" pButton pRipple type="button" label="Save Article" icon="pi pi-check" 
+            class="p-button-raised" (click)="onSave()" [disabled]="!article.designation">
+            <span *ngIf="loading" class="p-ml-2">
+              <i class="pi pi-spinner pi-spin"></i>
+            </span>
+          </button>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <!-- Custom VAT Rate Dialog -->
+    <p-dialog header="Add Custom VAT Rate" [(visible)]="displayVatDialog" [style]="{width: '350px'}" [modal]="true">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="customVatRate">VAT Rate (%)</label>
+          <input id="customVatRate" type="number" pInputText [(ngModel)]="customVatRate" min="0" max="100" step="0.1">
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple type="button" label="Cancel" icon="pi pi-times" (click)="displayVatDialog = false" class="p-button-text"></button>
+        <button pButton pRipple type="button" label="Add" icon="pi pi-check" (click)="addCustomVatRate()" class="p-button-raised"></button>
+      </ng-template>
+    </p-dialog>
+  </div>

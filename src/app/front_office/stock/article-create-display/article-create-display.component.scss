@@ -1,0 +1,484 @@
+/* article-create-display.component.scss */
+
+:host {
+    display: block;
+    background-color: #f8fafc;
+  }
+  
+  /* Premium Card Container */
+  .p-card {
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    border: none;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12);
+    }
+  
+    & ::ng-deep .p-card-header {
+      padding: 2rem 2rem 1rem;
+      background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-b) 100%);
+      border-bottom: 1px solid var(--surface-border);
+  
+      .header-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary-500), var(--primary-600));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+      }
+  
+      .header-subtitle {
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+      }
+    }
+  
+    & ::ng-deep .p-card-body {
+      padding: 0;
+    }
+  
+    & ::ng-deep .p-card-footer {
+      padding: 1.5rem 2rem;
+      background: var(--surface-card);
+      border-top: 1px solid var(--surface-border);
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  
+  /* Section Styling */
+  .section {
+    padding: 2rem;
+    border-bottom: 1px solid var(--surface-border);
+    position: relative;
+    background: var(--surface-card);
+  
+    &:last-child {
+      border-bottom: none;
+    }
+  
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+  
+      .section-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-50) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: var(--primary-600);
+        font-size: 1.2rem;
+      }
+  
+      .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin: 0;
+      }
+    }
+  }
+  
+  /* Image Section - Luxury Upload */
+  .image-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  
+    .image-container {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px dashed var(--surface-border);
+      background-color: var(--surface-ground);
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+  
+      &:hover {
+        border-color: var(--primary-color);
+        background-color: var(--surface-a);
+      }
+  
+      .image-preview {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        cursor: default;
+  
+        img {
+          max-width: 100%;
+          max-height: 250px;
+          object-fit: contain;
+          border-radius: 8px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          transition: transform 0.4s ease;
+          cursor: default;
+  
+          &:hover {
+            transform: scale(1.03);
+          }
+        }
+      }
+  
+      .empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-color-secondary);
+        cursor: pointer;
+  
+        .upload-icon {
+          font-size: 3rem;
+          color: var(--surface-border);
+          margin-bottom: 1rem;
+          opacity: 0.7;
+        }
+  
+        h4 {
+          margin: 0.5rem 0;
+          color: var(--text-color);
+        }
+  
+        p {
+          margin: 0;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  
+    /* File Upload Button Styling */
+    ::ng-deep .p-fileupload {
+      width: 100%;
+      
+      .p-button {
+        width: 100%;
+        padding: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border-radius: 8px;
+        background: linear-gradient(to right, var(--primary-color), var(--primary-500));
+        border: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.15);
+        cursor: pointer;
+  
+        &:enabled:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.2);
+          background: linear-gradient(to right, var(--primary-500), var(--primary-600));
+        }
+  
+        .pi {
+          margin-right: 0.75rem;
+          font-size: 1.1rem;
+        }
+      }
+  
+      input[type="file"] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+  
+  /* Details Section - Elegant Form */
+  .details-section {
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+  
+      .full-width {
+        grid-column: 1 / -1;
+      }
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+    }
+  
+    ::ng-deep {
+      .p-inputtext, .p-inputtextarea, .p-dropdown, .p-inputnumber {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--surface-border);
+        transition: all 0.3s ease;
+        background-color: var(--surface-a);
+  
+        &:hover {
+          border-color: var(--primary-300);
+        }
+  
+        &:focus {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+        }
+      }
+  
+      .p-inputtextarea {
+        min-height: 120px;
+        line-height: 1.6;
+        width: 100%;
+      }
+  
+      /* Enhanced Dropdown Styling */
+      .p-dropdown {
+        .p-dropdown-label {
+          padding: 0.75rem;
+        }
+  
+        .p-dropdown-trigger {
+          width: 3rem;
+        }
+  
+        .p-dropdown-panel {
+          z-index: 1100;
+          max-height: 200px;
+          overflow-y: auto;
+          border-radius: 8px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+          border: 1px solid var(--surface-border);
+  
+          .p-dropdown-items {
+            padding: 0;
+  
+            .p-dropdown-item {
+              padding: 0.75rem 1rem;
+              margin: 0;
+              border-radius: 0;
+  
+              &:not(.p-highlight):hover {
+                background: var(--surface-ground);
+              }
+  
+              &.p-highlight {
+                background: var(--primary-color);
+                color: white;
+              }
+            }
+          }
+        }
+      }
+  
+      /* InputNumber Styling */
+      .p-inputnumber {
+        .p-inputnumber-input {
+          width: 100%;
+          padding: 0.75rem;
+        }
+  
+        .p-inputnumber-button {
+          background: var(--surface-b);
+          color: var(--text-color-secondary);
+          width: 2.5rem;
+  
+          &:hover {
+            background: var(--surface-c);
+            color: var(--text-color);
+          }
+        }
+      }
+    }
+  
+    /* Stock Section Layout */
+    .stock-section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      align-items: end;
+  
+      > div {
+        width: 100%;
+      }
+    }
+  }
+  
+  /* Pricing Section - Premium Calculator */
+  .pricing-section {
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+  
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+    .pricing-card {
+      background: var(--surface-ground);
+      border-radius: 10px;
+      padding: 1.5rem;
+      border: 1px solid var(--surface-border);
+      transition: all 0.3s ease;
+  
+      &:hover {
+        border-color: var(--primary-200);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+  
+      .pricing-label {
+        font-size: 0.85rem;
+        color: var(--text-color-secondary);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+  
+        .pricing-icon {
+          margin-right: 0.5rem;
+          color: var(--primary-color);
+        }
+      }
+  
+      .pricing-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin: 0.5rem 0;
+  
+        &.vat-amount {
+          color: var(--primary-600);
+        }
+      }
+  
+      ::ng-deep .p-inputnumber {
+        width: 100%;
+  
+        .p-inputnumber-input {
+          font-size: 1.1rem;
+          font-weight: 500;
+          text-align: center;
+        }
+  
+        .p-inputnumber-button {
+          background: var(--surface-b);
+          color: var(--text-color-secondary);
+  
+          &:hover {
+            background: var(--surface-c);
+            color: var(--text-color);
+          }
+        }
+      }
+    }
+  
+    .vat-selector {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed var(--surface-border);
+  
+      ::ng-deep .p-dropdown {
+        width: 100%;
+      }
+    }
+  }
+  
+  /* Action Buttons - Luxury Style */
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  
+    .p-button {
+      min-width: 160px;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+  
+      &.p-button-secondary {
+        background: var(--surface-card);
+        border: 1px solid var(--surface-border);
+        color: var(--text-color);
+  
+        &:enabled:hover {
+          background: var(--surface-a);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+      }
+  
+      &.p-button-primary {
+        background: linear-gradient(to right, var(--primary-color), var(--primary-600));
+        border: none;
+        box-shadow: 0 4px 16px rgba(var(--primary-rgb), 0.2);
+  
+        &:enabled:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.25);
+        }
+      }
+  
+      .pi {
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
+      }
+    }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .p-card ::ng-deep .p-card-header {
+      padding: 1.5rem 1.5rem 0.75rem;
+    }
+  
+    .section {
+      padding: 1.5rem;
+    }
+  
+    .details-section .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Animation Enhancements */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .section {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  /* Validation Styling */
+  .field-error {
+    color: var(--red-500);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+  
+    .pi {
+      margin-right: 0.5rem;
+    }
+  }

@@ -6,13 +6,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 import { IconFieldModule } from 'primeng/iconfield';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ButtonModule, IconFieldModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator],
+    imports: [ButtonModule, IconFieldModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule],
     template: `
     <div class="flex items-center justify-center min-h-screen min-w-[100vw] overflow-hidden"
          style="background: linear-gradient(to top right, #1F78FF 0%, #151924 62%, #151924 100%);">
