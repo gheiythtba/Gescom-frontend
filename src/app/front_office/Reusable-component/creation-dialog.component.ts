@@ -24,7 +24,6 @@ import { TooltipModule } from 'primeng/tooltip';
     InputNumberModule,
     RippleModule,
     TooltipModule
-    
   ],
   template: `
     <p-dialog [header]="title" 
@@ -34,31 +33,31 @@ import { TooltipModule } from 'primeng/tooltip';
               [draggable]="false"
               [resizable]="false"
               [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
-              [contentStyle]="{ 'border-radius': '12px' }"
+              [contentStyle]="{ 'border-radius': '12px', 'padding': '0' }"
               (onHide)="onClose()">
       
-      <div class="dialog-content p-4">
+      <div class="dialog-content">
         <!-- Dynamic form fields -->
-        <div *ngFor="let field of fields" class="field mb-5">
-          <label [for]="field.key" class="block mb-2 text-sm font-medium text-gray-700">
-            {{ field.label }}<span *ngIf="field.required" class="text-red-500"> *</span>
+        <div *ngFor="let field of fields" class="field">
+          <label [for]="field.key" class="field-label">
+            {{ field.label }}<span *ngIf="field.required" class="required-asterisk"> *</span>
           </label>
           
-          <div class="relative">
+          <div class="field-input-container">
             <!-- Text Input -->
-            <span *ngIf="field.type === 'text'" class="p-input-icon-left">
+            <div *ngIf="field.type === 'text'" class="input-wrapper">
               <i [class]="field.icon || 'pi pi-pencil'"></i>
               <input [id]="field.key"
                     type="text"
                     pInputText
                     [(ngModel)]="model[field.key]"
                     [placeholder]="field.placeholder || ''"
-                    class="w-full text-sm border-gray-300 hover:border-blue-400 focus:border-blue-500 focus:ring-blue-500"
-                    [ngClass]="{ 'p-invalid': submitted && field.required && !model[field.key] }" />
-            </span>
+                    class="input-field"
+                    [ngClass]="{ 'input-error': submitted && field.required && !model[field.key] }" />
+            </div>
 
             <!-- Number Input -->
-            <span *ngIf="field.type === 'number'" class="p-input-icon-left">
+            <div *ngIf="field.type === 'number'" class="input-wrapper">
               <i [class]="field.icon || 'pi pi-calculator'"></i>
               <p-inputNumber [id]="field.key"
                             [(ngModel)]="model[field.key]"
@@ -66,14 +65,13 @@ import { TooltipModule } from 'primeng/tooltip';
                             [min]="field.min"
                             [max]="field.max"
                             mode="decimal"
-                            class="w-full"
-                            inputClass="w-full text-sm border-gray-300 hover:border-blue-400 focus:border-blue-500 focus:ring-blue-500"
-                            [ngClass]="{ 'p-invalid': submitted && field.required && !model[field.key] }">
+                            inputClass="input-field"
+                            [ngClass]="{ 'input-error': submitted && field.required && !model[field.key] }">
               </p-inputNumber>
-            </span>
+            </div>
 
             <!-- Select Dropdown -->
-            <span *ngIf="field.type === 'select'" class="p-input-icon-left">
+            <div *ngIf="field.type === 'select'" class="input-wrapper">
               <i [class]="field.icon || 'pi pi-list'"></i>
               <p-dropdown [id]="field.key"
                          [options]="field.options || []"
@@ -81,48 +79,47 @@ import { TooltipModule } from 'primeng/tooltip';
                          [optionLabel]="field.optionLabel || 'label'"
                          [optionValue]="field.optionValue || 'value'"
                          [placeholder]="field.placeholder || 'Select an option'"
-                         class="w-full text-sm"
-                         [ngClass]="{ 'p-invalid': submitted && field.required && !model[field.key] }">
+                         class="dropdown-field"
+                         [ngClass]="{ 'input-error': submitted && field.required && !model[field.key] }">
               </p-dropdown>
-            </span>
+            </div>
 
             <!-- Date Picker -->
-            <span *ngIf="field.type === 'date'" class="p-input-icon-left">
+            <div *ngIf="field.type === 'date'" class="input-wrapper">
               <i [class]="field.icon || 'pi pi-calendar'"></i>
               <p-calendar [id]="field.key"
                           [(ngModel)]="model[field.key]"
                           [placeholder]="field.placeholder || 'Select date'"
                           dateFormat="dd/mm/yy"
                           [showIcon]="true"
-                          class="w-full"
-                          inputClass="w-full text-sm border-gray-300 hover:border-blue-400 focus:border-blue-500 focus:ring-blue-500"
-                          [ngClass]="{ 'p-invalid': submitted && field.required && !model[field.key] }">
+                          inputClass="input-field"
+                          [ngClass]="{ 'input-error': submitted && field.required && !model[field.key] }">
               </p-calendar>
-            </span>
+            </div>
 
             <!-- Textarea -->
-            <span *ngIf="field.type === 'textarea'" class="p-input-icon-left">
+            <div *ngIf="field.type === 'textarea'" class="input-wrapper">
               <i [class]="field.icon || 'pi pi-align-left'"></i>
               <textarea [id]="field.key"
                       pInputTextarea
                       [(ngModel)]="model[field.key]"
                       [placeholder]="field.placeholder || ''"
                       [rows]="field.rows || 3"
-                      class="w-full text-sm border-gray-300 hover:border-blue-400 focus:border-blue-500 focus:ring-blue-500"
-                      [ngClass]="{ 'p-invalid': submitted && field.required && !model[field.key] }">
+                      class="textarea-field"
+                      [ngClass]="{ 'input-error': submitted && field.required && !model[field.key] }">
               </textarea>
-            </span>
+            </div>
           </div>
 
           <small *ngIf="submitted && field.required && !model[field.key]" 
-                class="p-error block mt-1 text-xs text-red-500">
+                class="error-message">
             {{ field.label }} is required
           </small>
         </div>
       </div>
 
       <ng-template pTemplate="footer">
-        <div class="flex justify-end gap-3">
+        <div class="dialog-footer">
           <button pButton 
                   type="button" 
                   label="Cancel" 
@@ -132,7 +129,7 @@ import { TooltipModule } from 'primeng/tooltip';
                   pRipple
                   pTooltip="Close without saving"
                   tooltipPosition="top"
-                  class="px-4 py-2 text-sm font-medium border-gray-300 hover:bg-gray-50">
+                  class="cancel-button">
           </button>
           
           <button pButton 
@@ -145,65 +142,214 @@ import { TooltipModule } from 'primeng/tooltip';
                   pTooltip="Save changes"
                   tooltipPosition="top"
                   [loading]="isSubmitting"
-                  class="px-4 py-2 text-sm font-medium">
+                  class="confirm-button">
           </button>
         </div>
       </ng-template>
     </p-dialog>
   `,
   styles: [`
+    /* Premium Dialog Styles */
+    :host {
+      --primary-color: #4361ee;
+      --primary-hover: #3a0ca3;
+      --secondary-color: #6c757d;
+      --secondary-hover: #5a6268;
+      --error-color: #ef4444;
+      --border-color: #e5e7eb;
+      --hover-border-color: #93c5fd;
+      --focus-border-color: #3b82f6;
+      --focus-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.2);
+      --error-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.2);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Dialog Header */
     :host ::ng-deep .p-dialog .p-dialog-header {
-      border-bottom: 1px solid #f3f4f6;
-      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.5rem 2rem;
+      background: #f9fafb;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
     }
-    
-    :host ::ng-deep .p-dialog .p-dialog-content {
-      padding: 0;
+
+    :host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
     }
-    
-    :host ::ng-deep .p-dialog .p-dialog-footer {
-      border-top: 1px solid #f3f4f6;
-      padding: 1rem 1.5rem;
+
+    /* Dialog Content */
+    .dialog-content {
+      padding: 2rem;
     }
-    
-    :host ::ng-deep .p-inputtext {
-      transition: all 0.2s ease;
+
+    .field {
+      margin-bottom: 1.75rem;
     }
-    
-    :host ::ng-deep .p-inputtext:enabled:hover {
-      border-color: #3b82f6;
+
+    .field-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #374151;
     }
-    
-    :host ::ng-deep .p-inputtext:enabled:focus {
-      box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.2);
-      border-color: #3b82f6;
+
+    .required-asterisk {
+      color: var(--error-color);
     }
-    
-    :host ::ng-deep .p-invalid.p-inputtext {
-      border-color: #ef4444;
+
+    .field-input-container {
+      position: relative;
     }
-    
-    :host ::ng-deep .p-invalid.p-inputtext:enabled:focus {
-      box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.2);
+
+    /* Input Wrapper */
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
-    
-    /* Icon styling */
-    :host ::ng-deep .p-input-icon-left > i {
+
+    .input-wrapper > i {
+      position: absolute;
+      left: 1rem;
       color: #6b7280;
       z-index: 1;
-      left: 1rem;
     }
-    
-    :host ::ng-deep .p-input-icon-left > .p-inputtext,
-    :host ::ng-deep .p-input-icon-left > .p-inputnumber,
-    :host ::ng-deep .p-input-icon-left > .p-dropdown,
-    :host ::ng-deep .p-input-icon-left > .p-calendar,
-    :host ::ng-deep .p-input-icon-left > textarea {
+
+    /* Input Fields */
+    .input-field, .textarea-field {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      font-size: 0.875rem;
+      color: #374151;
+      background-color: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    :host ::ng-deep .input-field:hover,
+    :host ::ng-deep .textarea-field:hover {
+      border-color: var(--hover-border-color);
+    }
+
+    :host ::ng-deep .input-field:focus,
+    :host ::ng-deep .textarea-field:focus {
+      border-color: var(--focus-border-color);
+      box-shadow: var(--focus-shadow);
+      outline: 0;
+    }
+
+    /* Textarea Specific */
+    .textarea-field {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* Dropdown Specific */
+    :host ::ng-deep .dropdown-field .p-dropdown {
+      width: 100%;
       padding-left: 2.5rem;
     }
-    
-    :host ::ng-deep .p-input-icon-left > textarea {
-      padding-top: 0.5rem;
+
+    :host ::ng-deep .dropdown-field .p-dropdown .p-dropdown-label {
+      padding: 0.75rem 1rem;
+    }
+
+    /* Error States */
+    .input-error {
+      border-color: var(--error-color) !important;
+    }
+
+    :host ::ng-deep .input-error:focus {
+      box-shadow: var(--error-shadow) !important;
+    }
+
+    .error-message {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--error-color);
+    }
+
+    /* Dialog Footer */
+    :host ::ng-deep .p-dialog .p-dialog-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 1.25rem 2rem;
+      background: #f9fafb;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    .dialog-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    /* Buttons */
+    .cancel-button, .confirm-button {
+      min-width: 100px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .cancel-button {
+      background-color: white !important;
+      color: var(--secondary-color) !important;
+      border: 1px solid var(--border-color) !important;
+    }
+
+    .cancel-button:hover {
+      background-color: #f3f4f6 !important;
+      color: var(--secondary-hover) !important;
+      border-color: var(--secondary-hover) !important;
+    }
+
+    .confirm-button {
+      background-color: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
+    }
+
+    .confirm-button:hover {
+      background-color: var(--primary-hover) !important;
+      border-color: var(--primary-hover) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .dialog-content {
+        padding: 1.5rem;
+      }
+
+      :host ::ng-deep .p-dialog .p-dialog-header,
+      :host ::ng-deep .p-dialog .p-dialog-footer {
+        padding: 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dialog-content {
+        padding: 1rem;
+      }
+
+      .field {
+        margin-bottom: 1.25rem;
+      }
+
+      .dialog-footer {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .cancel-button, .confirm-button {
+        width: 100%;
+      }
     }
   `]
 })
@@ -271,5 +417,5 @@ export interface DialogField {
   max?: number;
   rows?: number;
   defaultValue?: any;
-  icon?: string; // New property for custom icons
+  icon?: string;
 }

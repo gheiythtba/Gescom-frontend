@@ -1,0 +1,45 @@
+// Button overrides
+.p-button {
+  @include button-transition;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+
+  &.p-button-primary {
+    background: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+      background: $primary-dark;
+      border-color: $primary-dark;
+    }
+  }
+
+  &.p-button-secondary {
+    background: transparent;
+    color: $text-secondary;
+    border-color: $surface-border;
+
+    &:hover {
+      background: rgba($surface-border, 0.1);
+      color: $text-color;
+    }
+  }
+}
+
+// Input overrides
+.p-inputtext {
+  background: $surface-card;
+  border-color: $surface-border;
+  color: $text-color;
+
+  &:enabled:hover {
+    border-color: $primary-light;
+  }
+
+  &:focus {
+    @include focus-style;
+    border-color: $primary-color;
+  }
+}
+
+// Add more PrimeNG component overrides as needed...

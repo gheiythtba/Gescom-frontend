@@ -152,7 +152,8 @@ export interface TransferItemArticle {
         [columns]="tableColumns"
         [tabs]="statusTabs"
         [activeTab]="activeStatusTab"
-        (tabChanged)="onStatusFilterChange($event)">
+        (tabChanged)="onStatusFilterChange($event)"
+        (search)="onSearch($event)">
         
         <ng-template #actionTemplate let-row>
           <div class="flex gap-2">
@@ -170,6 +171,9 @@ export interface TransferItemArticle {
     </div>
   `,
   styles: [`
+    .p-4 {
+      padding: 1.5rem;
+    }
     :host {
       display: block;
       background-color: #f8fafc;
@@ -291,7 +295,9 @@ export class BonDeTransfertComponent {
       }
     }
   ];
+  
   filteredTransfers: TransferItem[] = [...this.transferItems];
+  searchTerm: string = '';
 
   // Statistics calculations
   get totalTransfers(): number {
@@ -324,12 +330,6 @@ export class BonDeTransfertComponent {
   }
 
   headerButtons: HeaderButton[] = [
-    {
-      key: 'back',
-      label: 'Retour',
-      icon: 'pi pi-arrow-left',
-      style: {'background-color': '#000000', 'border-color': '#000000'}
-    },
     {
       key: 'export',
       label: 'Exporter',
@@ -384,6 +384,52 @@ export class BonDeTransfertComponent {
   ];
   activeStatusTab: StatusTab = this.statusTabs[0];
 
+  onSearch(searchTerm: string) {
+    this.searchTerm = searchTerm.toLowerCase();
+    this.applyFilters();
+  }
+
+  onStatusFilterChange(tab: MenuItem) {
+    this.activeStatusTab = tab as StatusTab;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    // First apply status filter
+    let filtered = [...this.transferItems];
+    
+    switch(this.activeStatusTab.key) {
+      case 'pending':
+        filtered = filtered.filter(t => t.status === 'pending');
+        break;
+      case 'completed':
+        filtered = filtered.filter(t => t.status === 'completed');
+        break;
+      case 'cancelled':
+        filtered = filtered.filter(t => t.status === 'cancelled');
+        break;
+    }
+
+    // Then apply search filter if there's a search term
+    if (this.searchTerm) {
+      filtered = filtered.filter(transfer => 
+        transfer.reference.toLowerCase().includes(this.searchTerm) ||
+        transfer.originDocument.toLowerCase().includes(this.searchTerm) ||
+        transfer.sourceWarehouse.toLowerCase().includes(this.searchTerm) ||
+        transfer.destinationWarehouse.toLowerCase().includes(this.searchTerm) ||
+        transfer.status.toLowerCase().includes(this.searchTerm) ||
+        transfer.orderDate.toLocaleDateString().toLowerCase().includes(this.searchTerm) ||
+        transfer.itemsCount.toString().includes(this.searchTerm) ||
+        transfer.items.some(item => 
+          item.code.toLowerCase().includes(this.searchTerm) ||
+          item.designation.toLowerCase().includes(this.searchTerm) ||
+          item.supplierReference.toLowerCase().includes(this.searchTerm)
+      ));
+    }
+
+    this.filteredTransfers = filtered;
+  }
+
   onHeaderButtonClick(key: string) {
     if (key === 'back') {
       this.goBack();
@@ -391,24 +437,6 @@ export class BonDeTransfertComponent {
       this.createNewTransfer();
     } else if (key === 'export') {
       this.exportTransfers();
-    }
-  }
-
-  onStatusFilterChange(tab: MenuItem) {
-    this.activeStatusTab = tab as StatusTab;
-    this.filterTransfers();
-  }
-
-  filterTransfers() {
-    switch(this.activeStatusTab.key) {
-      case 'pending':
-        this.filteredTransfers = this.transferItems.filter(t => t.status === 'pending');
-        break;
-      case 'completed':
-        this.filteredTransfers = this.transferItems.filter(t => t.status === 'completed');
-        break;
-      default:
-        this.filteredTransfers = [...this.transferItems];
     }
   }
 
@@ -423,12 +451,12 @@ export class BonDeTransfertComponent {
 
   completeTransfer(transfer: TransferItem) {
     transfer.status = 'completed';
-    this.filterTransfers();
+    this.applyFilters();
   }
 
   cancelTransfer(transfer: TransferItem) {
     transfer.status = 'cancelled';
-    this.filterTransfers();
+    this.applyFilters();
   }
 
   createNewTransfer() {

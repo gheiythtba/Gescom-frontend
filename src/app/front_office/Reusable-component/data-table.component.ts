@@ -7,23 +7,58 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputTextModule } from 'primeng/inputtext';
+import { IconFieldModule } from 'primeng/iconfield';
+import { FormsModule } from '@angular/forms';
+import { InputIconModule } from 'primeng/inputicon';
 
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, TableModule, TabMenuModule, CardModule, ButtonModule, RippleModule, TooltipModule],
+  imports: [
+    CommonModule, 
+    TableModule, FormsModule,
+    TabMenuModule, 
+    CardModule, 
+    ButtonModule, 
+    RippleModule, 
+    TooltipModule,
+    InputTextModule,
+    IconFieldModule,
+    InputIconModule
+  ],
   template: `
     <div class="data-table-wrapper">
       <div class="data-table-container">
         <!-- Header with tabs and actions -->
         <div class="table-header border-t-2">
-          <div class="tab-menu-container">
-            <p-tabMenu 
-              [model]="tabs" 
-              [activeItem]="activeTab"
-              (activeItemChange)="onTabChange($event)"
-              class="custom-tab-menu">
-            </p-tabMenu>
+          <div class="header-content">
+            <div class="tab-menu-container">
+              <p-tabMenu 
+                [model]="tabs" 
+                [activeItem]="activeTab"
+                (activeItemChange)="onTabChange($event)"
+                class="custom-tab-menu">
+              </p-tabMenu>
+            </div>
+            
+            <!-- Search Field -->
+            <div class="search-container" *ngIf="showSearch">
+              <span class="p-float-label">
+                <p-iconField>
+                  <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                  </p-inputIcon>
+                  <input 
+                    pInputText 
+                    [(ngModel)]="searchTerm" 
+                    (input)="onSearch()" 
+                    placeholder="Search..."
+                    class="search-input"
+                  />
+                </p-iconField>
+              </span>
+            </div>
           </div>
         </div>
 
@@ -139,8 +174,40 @@ import { TooltipModule } from 'primeng/tooltip';
       background-color: #f8fafc;
     }
 
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
     .tab-menu-container {
-      width: 100%;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    /* Search styles */
+    .search-container {
+      flex: 0 0 auto;
+    }
+
+    :host ::ng-deep .search-input {
+      padding: 0.5rem 1rem 0.5rem 2rem;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s ease;
+      width: 250px;
+    }
+
+    :host ::ng-deep .search-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    :host ::ng-deep .p-input-icon {
+      color: #64748b;
     }
 
     /* Table content styles */
@@ -313,6 +380,20 @@ import { TooltipModule } from 'primeng/tooltip';
         padding: 0.75rem 1rem;
       }
 
+      .header-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+
+      .tab-menu-container {
+        width: 100%;
+      }
+
+      :host ::ng-deep .search-input {
+        width: 100%;
+      }
+
       .table-content {
         padding: 0.75rem;
       }
@@ -337,12 +418,20 @@ export class DataTableComponent {
   @Input() loading: boolean = false;
   @Input() showGlobalActions: boolean = true;
   @Input() showAddButton: boolean = true;
+  @Input() showSearch: boolean = true;
   @ContentChild('actionTemplate') actionTemplate!: TemplateRef<any>;
   @Output() tabChanged = new EventEmitter<MenuItem>();
   @Output() addClick = new EventEmitter<void>();
+  @Output() search = new EventEmitter<string>();
+
+  searchTerm: string = '';
 
   onTabChange(item: MenuItem) {
     this.tabChanged.emit(item);
+  }
+
+  onSearch() {
+    this.search.emit(this.searchTerm);
   }
 }
 

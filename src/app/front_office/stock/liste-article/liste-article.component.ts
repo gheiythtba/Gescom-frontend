@@ -130,7 +130,8 @@ interface StockItem {
         [columns]="tableColumns"
         [tabs]="statusTabs"
         [activeTab]="activeStatusTab"
-        (tabChanged)="onStatusFilterChange($event)">
+        (tabChanged)="onStatusFilterChange($event)"
+        (search)="onSearch($event)">
         
         <ng-template #actionTemplate let-row>
           <div class="flex gap-2">
@@ -142,6 +143,10 @@ interface StockItem {
     </div>
   `,
   styles: [`
+    .p-4 {
+      padding: 1.5rem;
+    }
+
     :host {
       display: block;
       background-color: #f8fafc;
@@ -248,7 +253,10 @@ export class ListeArticleComponent {
       archived: false
     }
   ];
+  
   filteredItems: StockItem[] = [...this.stockItems];
+  currentFilteredItems: StockItem[] = [...this.stockItems];
+  searchTerm: string = '';
 
   categories = Array.from(new Set(this.stockItems.map(item => item.category)));
 
@@ -292,12 +300,6 @@ export class ListeArticleComponent {
   }
 
   headerButtons = [
-    {
-      key: 'back',
-      label: 'Retour',
-      icon: 'pi pi-arrow-left',
-      style: {'background-color': '#000000', 'border-color': '#000000'}
-    },
     {
       key: 'Exporter',
       label: 'Exporter',
@@ -354,6 +356,46 @@ export class ListeArticleComponent {
   ];
   activeStatusTab: StatusTab = this.statusTabs[0];
 
+  onSearch(searchTerm: string) {
+    this.searchTerm = searchTerm.toLowerCase();
+    this.applyFilters();
+  }
+
+  onStatusFilterChange(tab: MenuItem) {
+    this.activeStatusTab = tab as StatusTab;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    // First apply status filter
+    let filtered = [...this.stockItems];
+    
+    switch(this.activeStatusTab.key) {
+      case 'active':
+        filtered = filtered.filter(item => !item.archived);
+        break;
+      case 'archive':
+        filtered = filtered.filter(item => item.archived);
+        break;
+    }
+
+    // Then apply search filter if there's a search term
+    if (this.searchTerm) {
+      filtered = filtered.filter(item => 
+        item.codeArticle.toLowerCase().includes(this.searchTerm) ||
+        item.designation.toLowerCase().includes(this.searchTerm) ||
+        item.marque.toLowerCase().includes(this.searchTerm) ||
+        item.category.toLowerCase().includes(this.searchTerm) ||
+        item.tva.toString().includes(this.searchTerm) ||
+        item.marge.toString().includes(this.searchTerm) ||
+        item.prixRevient.toString().includes(this.searchTerm) ||
+        item.prixVenteHT.toString().includes(this.searchTerm)
+      );
+    }
+
+    this.filteredItems = filtered;
+  }
+
   onHeaderButtonClick(key: string) {
     if (key === 'back') {
       console.log('Back button clicked');
@@ -361,24 +403,6 @@ export class ListeArticleComponent {
     } else if (key === 'add') {
       console.log('Add new item');
       this.goToAdd();
-    }
-  }
-
-  onStatusFilterChange(tab: MenuItem) {
-    this.activeStatusTab = tab as StatusTab;
-    this.filterItems();
-  }
-
-  filterItems() {
-    switch(this.activeStatusTab.key) {
-      case 'active':
-        this.filteredItems = this.stockItems.filter(item => !item.archived);
-        break;
-      case 'archive':
-        this.filteredItems = this.stockItems.filter(item => item.archived);
-        break;
-      default:
-        this.filteredItems = [...this.stockItems];
     }
   }
 
@@ -391,10 +415,10 @@ export class ListeArticleComponent {
     console.log('Editing item:', item);
   }
 
-
   goBack() {
     this.router.navigate(['/Gescom/frontOffice/Stock/StockManagement']);
   }
+
   goToAdd() {
     this.router.navigate(['/Gescom/frontOffice/Stock/ArticleAdd']);
   }

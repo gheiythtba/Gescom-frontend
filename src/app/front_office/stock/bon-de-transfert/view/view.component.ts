@@ -15,7 +15,7 @@ import { HeaderBarComponent, HeaderButton } from '../../../Reusable-component/he
 
 <div class="p-4">
       <app-header-bar
-        title="Détails du Bon de Transfert"
+        title="Bon de Transfert"
         subtitle="Visualisation du fichier d'entrepôt"
         [buttons]="headerButtons"
         (buttonClick)="onHeaderButtonClick($event)">

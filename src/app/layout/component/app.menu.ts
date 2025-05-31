@@ -23,56 +23,51 @@ export class AppMenu {
             {
                 label: 'Main Menu',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/Gescom/dashboard'] },
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/Gescom/frontOffice/Dashboards'] },
                     { label: 'Contactes', icon: 'pi pi-fw pi-users', items: [
                         {
-                            label: 'Clients',
+                            label: 'Employées',
                             icon: 'pi pi-fw pi-user',
-                            routerLink: ['#']
+                            routerLink: ['/Gescom/frontOffice/User']
+                        },
+                        {
+                            label: ' Clients',
+                            icon: 'pi pi-fw pi-address-book',
+                            routerLink: ['/Gescom/frontOffice/User/client']
                         },
                         {
                             label: ' Fournisseurs',
                             icon: 'pi pi-fw pi-truck',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/User/supplier']
                         }
                     ] },
-                    { label: 'Achats', icon: 'pi pi-fw pi-shopping-cart', items: [
+                    { label: 'Achats', icon: 'pi pi-fw pi-dollar', items: [
                         {
-                            label: 'Commande fournisseur',
+                            label: 'Bon d"entrée ',
                             icon: 'pi pi-fw pi-shopping-cart',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Achat/BonDentree']
                         },
                         {
-                            label: 'Bon de Réception',
+                            label: 'Commande Fournisseur ',
                             icon: 'pi pi-fw pi-check-square',
-                            routerLink: ['/']
-                        },
-                        {
-                            label: 'Facture Fournisseur',
-                            icon: 'pi pi-fw pi-file-pdf',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Achat/Commande']
                         }
                     ] },
                     { label: 'Vente', icon: 'pi pi-fw pi-money-bill', class: 'rotated-icon', items: [
                         {
                             label: 'Devis',
                             icon: 'pi pi-fw pi-file-edit',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Sale/devis']
                         },
                         {
                             label: 'Bon de Livraison',
                             icon: 'pi pi-fw pi-truck',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Sale/livraison']
                         },
                         {
                             label: 'Bon De Sortie',
-                            icon: 'pi pi-fw pi-arrow-right',
-                            routerLink: ['/']
-                        },
-                        {
-                            label: 'Facture',
                             icon: 'pi pi-fw pi-file-pdf',
-                            routerLink: ['/']
+                            routerLink: ['/Gescom/frontOffice/Sale/facture']
                         }
                     ] },
 
@@ -122,7 +117,7 @@ export class AppMenu {
                     //{ label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
                     //{ label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
                     //{ label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
-                    { label: 'Rapports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/'] },
+                    { label: 'Rapports', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/Gescom/frontOffice/Rapports'] },
                     { label: 'Paramétre', icon: 'pi pi-fw pi-cog', routerLink: ['/'] }
                 ]
             },

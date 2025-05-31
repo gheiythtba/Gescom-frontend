@@ -797,13 +797,7 @@ export class SeuilComponent {
   activeTab: MenuItem = this.tabs[0];
 
   headerButtons = [
-    {
-      key: 'back',
-      label: 'Retour',
-      icon: 'pi pi-arrow-left',
-      severity: 'secondary',
-      outlined: true
-    },
+   
     {
       key: 'export',
       label: 'Exporter',

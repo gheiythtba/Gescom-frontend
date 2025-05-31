@@ -11,8 +11,6 @@ import { Entrepot } from '../../../models/entrepot.model';
 import { StockItem } from '../../../models/stockItem.model';
 import { HeaderBarComponent } from '../../Reusable-component/header-bar.component';
 import { DataTableComponent } from '../../Reusable-component/data-table.component';
-
-// Add these imports for icons
 import { DividerModule } from 'primeng/divider';
 import { TagModule } from 'primeng/tag';
 
@@ -29,8 +27,8 @@ interface StatusTab extends MenuItem {
     TooltipModule,
     TabMenuModule,
     CardModule,
-    DividerModule, // Added for dividers
-    TagModule,     // Added for status tags
+    DividerModule,
+    TagModule,
     HeaderBarComponent, 
     DataTableComponent
   ],
@@ -106,35 +104,35 @@ interface StatusTab extends MenuItem {
       </div>
 
       <app-data-table
-  [data]="filteredItems"
-  [columns]="tableColumns"
-  [tabs]="statusTabs"
-  [activeTab]="activeStatusTab"
-  (tabChanged)="onStatusFilterChange($event)">
-  
-  <!-- Define the action buttons template -->
-  <ng-template #actionTemplate let-item>
-    <div class="flex gap-2">
-      <button pButton 
-              pTooltip="Adjust threshold" 
-              icon="pi pi-sliders-h" 
-              class="p-button-sm p-button-rounded p-button-text"
-              (click)="adjustSeuil(item)"></button>
-      
-      <button pButton 
-              pTooltip="Transfer item" 
-              icon="pi pi-arrows-h" 
-              class="p-button-sm p-button-rounded p-button-text"
-              (click)="transferItem(item)"></button>
-      
-      <button pButton 
-              pTooltip="Archive item" 
-              icon="pi pi-ban" 
-              class="p-button-sm p-button-rounded p-button-text"
-              (click)="archiveItem(item)"></button>
-    </div>
-  </ng-template>
-</app-data-table>
+        [data]="filteredItems"
+        [columns]="tableColumns"
+        [tabs]="statusTabs"
+        [activeTab]="activeStatusTab"
+        (tabChanged)="onStatusFilterChange($event)"
+        (search)="onSearch($event)">
+        
+        <ng-template #actionTemplate let-item>
+          <div class="flex gap-2">
+            <button pButton 
+                    pTooltip="Adjust threshold" 
+                    icon="pi pi-sliders-h" 
+                    class="p-button-sm p-button-rounded p-button-text"
+                    (click)="adjustSeuil(item)"></button>
+            
+            <button pButton 
+                    pTooltip="Transfer item" 
+                    icon="pi pi-arrows-h" 
+                    class="p-button-sm p-button-rounded p-button-text"
+                    (click)="transferItem(item)"></button>
+            
+            <button pButton 
+                    pTooltip="Archive item" 
+                    icon="pi pi-ban" 
+                    class="p-button-sm p-button-rounded p-button-text"
+                    (click)="archiveItem(item)"></button>
+          </div>
+        </ng-template>
+      </app-data-table>
     </div>
   `,
   styles: [`
@@ -233,6 +231,7 @@ export class StockDetailsComponent implements OnInit {
   entrepot?: Entrepot;
   stockItems: StockItem[] = [];
   filteredItems: StockItem[] = [];
+  searchTerm: string = '';
 
   // Statistics properties
   totalArticles = 0;
@@ -250,13 +249,7 @@ export class StockDetailsComponent implements OnInit {
       style: {'background-color': '#007AFF', 'border-color': '#007AFF','color': '#ffffff'}
     }
   ];
-  archiveItem(item: StockItem) {
-    console.log('Archiving:', item);
-    // Implement your archive logic here
-    item.archived = true;
-    this.filterItems(); // Refresh the filtered items
-    this.calculateStatistics(); // Update statistics
-  }
+
   // Table Configuration
   tableColumns = [
     { field: 'name', header: 'Article' },
@@ -304,24 +297,49 @@ export class StockDetailsComponent implements OnInit {
     }
   }
 
-  onStatusFilterChange(tab: MenuItem) {
-    this.activeStatusTab = tab as StatusTab;
-    this.filterItems();
+  onSearch(searchTerm: string) {
+    this.searchTerm = searchTerm.toLowerCase();
+    this.applyFilters();
   }
 
-  filterItems() {
-    const tab = this.activeStatusTab;
+  onStatusFilterChange(tab: MenuItem) {
+    this.activeStatusTab = tab as StatusTab;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    // First apply status filter
+    let filtered = [...this.stockItems];
     
-    switch(tab.key) {
+    switch(this.activeStatusTab.key) {
       case 'active':
-        this.filteredItems = this.stockItems.filter(item => !item.archived);
+        filtered = filtered.filter(item => !item.archived);
         break;
       case 'archive':
-        this.filteredItems = this.stockItems.filter(item => item.archived);
+        filtered = filtered.filter(item => item.archived);
         break;
-      default: // 'all'
-        this.filteredItems = [...this.stockItems];
     }
+
+    // Then apply search filter if there's a search term
+    if (this.searchTerm) {
+      filtered = filtered.filter(item => 
+        item.name?.toLowerCase().includes(this.searchTerm) ||
+        item.quantity?.toString().includes(this.searchTerm) ||
+        item.seuil?.toString().includes(this.searchTerm) ||
+        item.price?.toString().includes(this.searchTerm) ||
+        item.category?.toLowerCase().includes(this.searchTerm)
+      );
+    }
+
+    this.filteredItems = filtered;
+  }
+
+  archiveItem(item: StockItem) {
+    console.log('Archiving:', item);
+    // Implement your archive logic here
+    item.archived = true;
+    this.applyFilters(); // Refresh the filtered items
+    this.calculateStatistics(); // Update statistics
   }
 
   adjustSeuil(item: StockItem) {

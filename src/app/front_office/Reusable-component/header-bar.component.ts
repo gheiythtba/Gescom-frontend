@@ -27,7 +27,8 @@ import { ButtonModule } from 'primeng/button';
             class="action-button"
             [ngClass]="{
               'primary-action': button.primary,
-              'has-icon': button.icon
+              'has-icon': button.icon,
+              'secondary-action': !button.primary
             }"
             [style]="button.style"
             (click)="buttonClick.emit(button.key)">
@@ -37,13 +38,27 @@ import { ButtonModule } from 'primeng/button';
     </div>
   `,
   styles: [`
+    /* Premium Header Styles */
+    :host {
+      --primary-color: #4361ee;
+      --primary-hover: #3a0ca3;
+      --secondary-color: #6c757d;
+      --secondary-hover: #5a6268;
+      --text-color: #2b2d42;
+      --text-light: #8d99ae;
+      --border-color: rgba(0,0,0,0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
     /* Main container */
     .header-container {
       background: white;
-      padding: 1.25rem 2rem;
-      border-bottom: 1px solid #e5e7eb;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      margin-bottom: 1.5rem;
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 10;
     }
 
     /* Header content layout */
@@ -62,30 +77,37 @@ import { ButtonModule } from 'primeng/button';
     }
 
     .title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #111827;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-color);
       margin: 0;
-      line-height: 1.3;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
     }
 
     .subtitle {
-      font-size: 0.875rem;
-      color: #6b7280;
-      margin-top: 0.25rem;
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-top: 0.5rem;
+      font-weight: 400;
     }
 
     /* Actions section */
     .actions-section {
       display: flex;
-      gap: 0.75rem;
+      gap: 1rem;
       align-items: center;
     }
 
     /* Button styles */
     .action-button {
-      transition: all 0.2s ease;
+      transition: var(--transition);
       min-width: fit-content;
+      border-radius: 10px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.01em;
+      padding: 0.75rem 1.25rem !important;
+      box-shadow: none !important;
     }
 
     .action-button.has-icon {
@@ -95,25 +117,51 @@ import { ButtonModule } from 'primeng/button';
     }
 
     .primary-action {
-      background-color: #007AFF !important;
-      border-color: #007AFF !important;
+      background-color: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
     }
 
     .primary-action:hover {
-      background-color: #0066CC !important;
-      border-color: #0066CC !important;
+      background-color: var(--primary-hover) !important;
+      border-color: var(--primary-hover) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2) !important;
+    }
+
+    .secondary-action {
+      background-color: transparent !important;
+      color: var(--secondary-color) !important;
+      border-color: var(--secondary-color) !important;
+    }
+
+    .secondary-action:hover {
+      background-color: rgba(108, 117, 125, 0.05) !important;
+      color: var(--secondary-hover) !important;
+      border-color: var(--secondary-hover) !important;
+      transform: translateY(-1px);
     }
 
     /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .header-container {
+        padding: 1.25rem 2rem;
+      }
+      
+      .title {
+        font-size: 1.5rem;
+      }
+    }
+
     @media (max-width: 768px) {
       .header-container {
-        padding: 1rem;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
       }
 
       .header-content {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 1.25rem;
       }
 
       .actions-section {
@@ -124,12 +172,21 @@ import { ButtonModule } from 'primeng/button';
       .action-button {
         flex: 1 1 auto;
         min-width: 100%;
+        padding: 0.65rem 1rem !important;
       }
     }
 
     @media (max-width: 480px) {
+      .header-container {
+        padding: 1rem;
+      }
+
       .title {
-        font-size: 1.25rem;
+        font-size: 1.4rem;
+      }
+
+      .subtitle {
+        font-size: 0.85rem;
       }
     }
   `]
